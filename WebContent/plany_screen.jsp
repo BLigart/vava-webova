@@ -32,6 +32,18 @@
 <div align="center">
 <h1>Plány výberu predmetov</h1>
 
+<form action="vytvorenieplanu" method="post">
+<input type="submit" value="Vytvoriť nový plán" style="height:50px; width:300px" />
+</form>
+<br>
+<form action="zmazanieplanu" method="post">
+<input type="submit" value="Zmazať plán" style="height:50px; width:300px" />
+</form>
+<br>
+<form action="zoznamplanov" method="post">
+<input type="submit" value="Zoznam plánov" style="height:50px; width:300px" />
+</form>
+<br>
 <%
 if(firma == null) {
 %>
@@ -42,20 +54,6 @@ if(firma == null) {
 <%
 }
 %>
-
-<form action="zoznamplanov" method="post">
-<input type="submit" value="Zoznam plánov" style="height:50px; width:300px" />
-</form>
-<br>
-<form action="vytvorenieplanu" method="post">
-<input type="submit" value="Vytvoriť nový plán" style="height:50px; width:300px" />
-</form>
-<br>
-<form action="zmazanieplanu" method="post">
-<input type="submit" value="Zmazať plán" style="height:50px; width:300px" />
-</form>
-
-
 
 </div>
 

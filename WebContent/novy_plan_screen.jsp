@@ -10,6 +10,9 @@ table, th, td {
     border: 1px solid black;
     text-align: center;
 }
+form {
+    display: inline-block; 
+}
 </style>
 </head>
 <body>
@@ -22,12 +25,6 @@ table, th, td {
 <div align="center">
 <h1>Vytvorenie nového plánu</h1>
 
-<form action="setnazov" method="post">
-	<br><input type="text" placeholder="Názov plánu" name="navozplanu" />
-	<br><br><input type="submit" value="Uložiť názov" style="height:30px; width:200px" />
-</form>
-
-<br>
 <%
 	String nazovPlanu = (String) session.getAttribute("nazovPlanu");
 	if(nazovPlanu == null) {
@@ -36,8 +33,27 @@ table, th, td {
 %>
 Názov plánu: <%=nazovPlanu%>
 
+<form action="setnazov" method="post">
+	<input type="text" placeholder="Zadaj názov plánu" name="navozplanu" />
+	<input type="submit" value="Uložiť názov" style="height:30px; width:200px" />
+</form>
+
 <br><br>
+
+<%
+String savedSemester = (String)session.getAttribute("saved_semester");
+%>
+
+
 <form action="selectvolitelnypredmet" method="post">
+Zvolený semester:
+<%
+if(!savedSemester.equals("0")) {
+%>
+<%=savedSemester%>
+<%
+}
+%>
 <select name="semesterSelect">
 	<option value="0">Zvoľ semester</option>
     <option value="1">1. semester</option>
@@ -66,7 +82,7 @@ ArrayList<VolitelnyPredmet> volitelne_predmety = (ArrayList<VolitelnyPredmet>)se
 <br><br>
 <input type="submit" value="Pridať predmet do plánu" style="height:30px; width:200px" />
 </form>
-<br>
+<br><br>
 
 <%
 ArrayList<PlanPredmet> predmety_v_plane = (ArrayList<PlanPredmet>)session.getAttribute("predmety_v_plane");

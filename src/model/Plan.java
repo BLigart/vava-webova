@@ -80,7 +80,6 @@ public class Plan implements Comparable<Plan> {
 	public int compareTo(Plan plan) {
 		switch(this.getSortFactor()) {
 			case 1: {
-				//return Double.compare(this.getPocetStudentov(), plan.getPocetStudentov());
 				return Double.compare(plan.getPocetStudentov(), this.getPocetStudentov());
 			}
 			case 2: {

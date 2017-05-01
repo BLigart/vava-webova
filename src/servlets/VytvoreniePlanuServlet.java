@@ -45,6 +45,7 @@ public class VytvoreniePlanuServlet extends HttpServlet {
 		
 		request.getSession().setAttribute("predmety_v_plane", null);
 		request.getSession().setAttribute("nazovPlanu", "");
+		request.getSession().setAttribute("saved_semester", "0");
 		
 		response.sendRedirect("novy_plan_screen.jsp");
 		return;

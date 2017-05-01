@@ -28,8 +28,17 @@ public class VolitelnyPredmetServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		String selectedSemesterStr = request.getParameter("semesterSelect");
 		int selectedSemester = Integer.parseInt(selectedSemesterStr);
+		String savedSemesterStr = (String) request.getSession().getAttribute("saved_semester");
+		int savedSemester = Integer.parseInt(savedSemesterStr);
+		if(selectedSemester != 0) {
+			request.getSession().setAttribute("saved_semester", selectedSemesterStr);
+		}
+		if(selectedSemester == 0 && savedSemester != 0) {
+			selectedSemester = savedSemester;
+		}
+		
 		String selectedVolitelnyPredmet = request.getParameter("volitelnypredmetSelect");
-		if(selectedSemester != 0 && !selectedVolitelnyPredmet.equals("")) {
+		if((selectedSemester != 0 || savedSemester != 0) && !selectedVolitelnyPredmet.equals("")) {
 			ArrayList<PlanPredmet> predmety_v_plane = (ArrayList<PlanPredmet>) request.getSession().getAttribute("predmety_v_plane");
 			
 			ArrayList<VolitelnyPredmet> volitelne_predmety = new ArrayList<VolitelnyPredmet>();

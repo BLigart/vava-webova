@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import managers.OtazkaManager;
 import managers.TestManager;
+import model.Otazka;
 import model.Predmet;
 import model.Rok;
 import model.Test;
@@ -58,7 +60,19 @@ public class PridajTestServlet extends HttpServlet {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			//System.out.println("1testy size:" + testy.get(0) + "*");
 			request.getSession().setAttribute("testy", testy);
+			//System.out.println("2testy size:" + testy.get(0) + "*");
+			request.getSession().setAttribute("selectedTest", testy.get(testy.size() - 1));
+			//System.out.println("3testy size:" + testy.get(0) + "*");
+			OtazkaManager otazkaManager = new OtazkaManager();
+			List<Otazka> otazky = null;
+			try {
+				otazky = otazkaManager.getAllOtazkaFromTest(testy.get(testy.size() - 1).getId());
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			request.getSession().setAttribute("otazky", otazky);
 		}
 		
 		response.sendRedirect("testy_screen.jsp");

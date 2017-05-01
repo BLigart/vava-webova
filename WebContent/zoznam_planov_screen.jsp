@@ -10,6 +10,9 @@ table, th, td {
     border: 1px solid black;
     text-align: center;
 }
+form {
+    display: inline-block; 
+}
 </style>
 </head>
 <body>
@@ -20,68 +23,6 @@ table, th, td {
 </form>
 </div>
 <div align="center">
-<h1>Zoznam plánov</h1>
-
-<br>
-<form action="sortbypocetstudentov" method="post">
-<input type="submit" value="Zoradiť podľa počtu študentov, ktorí zapísali predmety v pláne(od najviac)" style="height:30px; width:500px" />
-</form>
-
-<br>
-<form action="sortbypriemer" method="post">
-<input type="submit" value="Zoradiť podľa priemeru(od najlepšieho)" style="height:30px; width:500px" />
-</form>
-
-<br>
-<form action="sortbyabsolvovanie" method="post">
-<input type="submit" value="Zoradiť podľa absolvovania(od najlepšieho)" style="height:30px; width:500px" />
-</form>
-
-<br>
-<form action="sortbyautor" method="post">
-<input type="submit" value="Zoradiť podľa autora" style="height:30px; width:500px" />
-</form>
-
-<%
-List<Plan> studentPlany = (List<Plan>)session.getAttribute("studentplany");
-if(studentPlany == null) {
-	studentPlany = new ArrayList();
-}
-List<Plan> firmaPlany = (List<Plan>)session.getAttribute("firmaplany");
-if(firmaPlany == null) {
-	firmaPlany = new ArrayList();
-}
-%>
-
-<br>
-<form action="selectstudentplan" method="post">
-<select name="studentplanSelect">
-	<option  value="">Zvoľ plán</option>
-   <%  for(int i = 0; i < studentPlany.size(); i++) {
-	   	Plan plan = (Plan)studentPlany.get(i);
-   %>
-   <option value="<%=plan%>"><%=plan%></option>
-   <% } %>
-</select>
-<br>
-<br><input type="submit" value="Zvoliť plán" style="height:30px; width:100px" />
-</form>
-
-<br>
-<form action="selectfirmaplan" method="post">
-<select name="firmaplanSelect">
-	<option  value="">Zvoľ plán</option>
-   <%  for(int i = 0; i < firmaPlany.size(); i++) {
-	   	Plan plan = (Plan)firmaPlany.get(i);
-   %>
-   <option value="<%=plan%>"><%=plan%></option>
-   <% } %>
-</select>
-<br>
-<br><input type="submit" value="Zvoliť plán" style="height:30px; width:100px" />
-</form>
-
-
 
 
 <%
@@ -164,7 +105,18 @@ else if(firmaPlan != null) {
 %>
 
 
+<h1>Zoznam plánov</h1>
 
+<%
+List<Plan> studentPlany = (List<Plan>)session.getAttribute("studentplany");
+if(studentPlany == null) {
+	studentPlany = new ArrayList();
+}
+List<Plan> firmaPlany = (List<Plan>)session.getAttribute("firmaplany");
+if(firmaPlany == null) {
+	firmaPlany = new ArrayList();
+}
+%>
 
 
 <h3>Plány študentov</h3>
@@ -207,6 +159,45 @@ else if(firmaPlan != null) {
    <% } %>
  
 </table>
+
+<h4>Zoradenie plánov</h4>
+<form action="selectsort" method="post">
+<select name="sortSelect">
+	<option  value="">Zvoľ faktor</option>
+   	<option value="sort1">Zoradiť podľa počtu študentov, ktorí zapísali predmety v pláne(od najviac)</option>
+   	<option value="sort2">Zoradiť podľa priemeru(od najlepšieho)</option>
+   	<option value="sort3">Zoradiť podľa počtu FX(od najlepšieho)</option>
+   	<option value="sort4">Zoradiť podľa autora</option>
+</select>
+<input type="submit" value="Zoradiť plány" style="height:30px; width:200px" />
+</form>
+
+<h3>Zobrazenie plánov</h3>
+<form action="selectstudentplan" method="post">
+<select name="studentplanSelect">
+	<option  value="">Zvoľ plán</option>
+   <%  for(int i = 0; i < studentPlany.size(); i++) {
+	   	Plan plan = (Plan)studentPlany.get(i);
+   %>
+   <option value="<%=plan%>"><%=plan%></option>
+   <% } %>
+</select>
+
+<input type="submit" value="Zobraziť študentský plán" style="height:30px; width:200px" />
+</form>
+
+
+<form action="selectfirmaplan" method="post">
+<select name="firmaplanSelect">
+	<option  value="">Zvoľ plán</option>
+   <%  for(int i = 0; i < firmaPlany.size(); i++) {
+	   	Plan plan = (Plan)firmaPlany.get(i);
+   %>
+   <option value="<%=plan%>"><%=plan%></option>
+   <% } %>
+</select>
+<input type="submit" value="Zobraziť plán firmy" style="height:30px; width:200px" />
+</form>
 
 </div>
 
