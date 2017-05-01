@@ -11,6 +11,9 @@ table, th, td {
     border: 1px solid black;
     text-align: center;
 }
+form {
+    display: inline-block; 
+}
 </style>
 </head>
 <body>
@@ -28,91 +31,6 @@ ArrayList<Predmet> predmety = (ArrayList<Predmet>)session.getAttribute("predmety
 <h1>Testy</h1>
 <br>
 
-<form action="selectpredmet" method="post">
-<select name="predmetSelect">
-	<option  value="">Zvoľ predmet</option>
-   <%  for(int i = 0; i < predmety.size(); i++) {
-           Predmet predmet = (Predmet)predmety.get(i);
-   %>
-   <option value="<%= predmet %>"><%= predmet %></option>
-   <% } %>
-</select>
-<br>
-<br><input type="submit" value="Zvoliť predmet" style="height:30px; width:100px" />
-</form>
-
-<%
-	Predmet selectedPredmet = (Predmet) session.getAttribute("selectedPredmet");
-	if(selectedPredmet == null) {
-		selectedPredmet = new Predmet();
-	}
-%>
-<br>
-Zvolený predmet: <%=selectedPredmet %>
-<br><br>
-
-<%
-List<Rok> roky = (List<Rok>)session.getAttribute("roky");
-%>
-
-<form action="selectrok" method="post">
-<select name="rokSelect">
-	<option  value="">Zvoľ rok</option>
-   <%  for(int i = 0; i < roky.size(); i++) {
-           Rok rok = roky.get(i);
-   %>
-   <option value="<%= rok %>"><%= rok %></option>
-   <% } %>
-</select>
-<br>
-<br><input type="submit" value="Zvoliť rok" style="height:30px; width:100px" />
-</form>
-
-<%
-	Rok selectedRok = (Rok) session.getAttribute("selectedRok");
-	if(selectedRok == null) {
-		selectedRok = new Rok();
-	}
-%>
-<br>
-Zvolený rok: <%=selectedRok %>
-<br><br>
-
-<%
-List<Test> testy = (List<Test>)session.getAttribute("testy");
-if(testy == null) {
-	testy = new ArrayList();
-}
-%>
-
-<form action="selecttest" method="post">
-<select name="testSelect">
-	<option  value="">Zvoľ test</option>
-   <%  for(int i = 0; i < testy.size(); i++) {
-	   	Test test = (Test)testy.get(i);
-   %>
-   <option value="<%= test %>"><%= test %></option>
-   <% } %>
-</select>
-<br>
-<br><input type="submit" value="Zvoliť test" style="height:30px; width:100px" />
-<br><br>
-</form>
-
-<form action="pridajtest" method="post">
-<input type="submit" value="Pridať nový test" style="height:30px; width:150px" />
-</form>
-
-<%
-	Test selectedTest = (Test) session.getAttribute("selectedTest");
-	if(selectedTest == null) {
-		selectedTest = new Test();
-	}
-%>
-<br>
-Zvolený test: <%=selectedTest %>
-<br><br>
-
 
 
 <%
@@ -123,7 +41,7 @@ if(predmet != null && rok != null && test != null) {
 	List<Otazka> otazky = (List<Otazka>)session.getAttribute("otazky");
 %>
 
-<h1>Otázky</h1>
+<h3><%=test%> z predmetu <%=predmet.getNazov()%>, rok <%=rok%></h3>
 <br>
 <table>
   <tr>
@@ -156,6 +74,77 @@ if(predmet != null && rok != null && test != null) {
 
 
 
+
+<%
+	Predmet selectedPredmet = (Predmet) session.getAttribute("selectedPredmet");
+	if(selectedPredmet == null) {
+		selectedPredmet = new Predmet();
+	}
+%>
+
+<form action="selectpredmet" method="post">
+Zvolený predmet: <%=selectedPredmet %>
+<select name="predmetSelect">
+	<option  value="">Zvoľ predmet</option>
+   <%  for(int i = 0; i < predmety.size(); i++) {
+           predmet = (Predmet)predmety.get(i);
+   %>
+   <option value="<%= predmet %>"><%= predmet %></option>
+   <% } %>
+</select>
+<input type="submit" value="Zvoliť predmet" style="height:30px; width:100px" />
+</form>
+<br><br>
+
+<%
+List<Rok> roky = (List<Rok>)session.getAttribute("roky");
+Rok selectedRok = (Rok) session.getAttribute("selectedRok");
+if(selectedRok == null) {
+	selectedRok = new Rok();
+}
+%>
+
+<form action="selectrok" method="post">
+Zvolený rok: <%=selectedRok %>
+<select name="rokSelect">
+	<option  value="">Zvoľ rok</option>
+   <%  for(int i = 0; i < roky.size(); i++) {
+           rok = roky.get(i);
+   %>
+   <option value="<%= rok %>"><%= rok %></option>
+   <% } %>
+</select>
+<input type="submit" value="Zvoliť rok" style="height:30px; width:100px" />
+</form>
+<br><br>
+
+<%
+List<Test> testy = (List<Test>)session.getAttribute("testy");
+if(testy == null) {
+	testy = new ArrayList();
+}
+Test selectedTest = (Test) session.getAttribute("selectedTest");
+if(selectedTest == null) {
+	selectedTest = new Test();
+}
+%>
+
+<form action="selecttest" method="post">
+Zvolený test: <%=selectedTest %>
+<select name="testSelect">
+	<option  value="">Zvoľ test</option>
+   <%  for(int i = 0; i < testy.size(); i++) {
+	   	test = (Test)testy.get(i);
+   %>
+   <option value="<%= test %>"><%= test %></option>
+   <% } %>
+</select>
+<input type="submit" value="Zvoliť test" style="height:30px; width:100px" />
+</form>
+
+<form action="pridajtest" method="post">
+<input type="submit" value="Pridať nový test" style="height:30px; width:150px" />
+</form>
 
 </div>
 
