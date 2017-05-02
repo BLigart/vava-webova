@@ -9,7 +9,7 @@
 <body>
 
 <div align="center">
-<h1>FIIT STU: Manažment pozornosti</h1>
+<h1>StudentManager FIIT STU</h1>
 
 <form action="login" method="post">
 	<br><input type="text" placeholder="Prihlasovacie meno" name="username" />
