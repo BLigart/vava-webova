@@ -10,9 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import managers.OtazkaManager;
 import managers.TestManager;
 import model.Otazka;
+import model.Plan;
 import model.Predmet;
 import model.Rok;
 import model.Test;
@@ -23,12 +26,15 @@ import model.Test;
 @WebServlet("/pridajtest")
 public class PridajTestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static Logger logger = Logger.getLogger(PridajTestServlet.class);
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		logger.info("REQUEST \\n" + "Remote addr" + request.getRemoteAddr() + "\\n Query: " + request.getQueryString());
+
 		Predmet predmet = (Predmet) request.getSession().getAttribute("selectedPredmet");
 		Rok rok = (Rok) request.getSession().getAttribute("selectedRok");
 		if(predmet != null && rok != null) {
@@ -41,7 +47,8 @@ public class PridajTestServlet extends HttpServlet {
 				try {
 					testManager.insertTest(new Test(predmet.getId(), rok.getId(), 1));
 				} catch (ClassNotFoundException | SQLException e) {
-					e.printStackTrace();
+					logger.warn(e.getMessage(), e);
+;
 				}
 			}
 			else {
@@ -49,7 +56,8 @@ public class PridajTestServlet extends HttpServlet {
 				try {
 					testManager.insertTest(new Test(predmet.getId(), rok.getId(), testy.size() + 1));
 				} catch (ClassNotFoundException | SQLException e) {
-					e.printStackTrace();
+					logger.warn(e.getMessage(), e);
+;
 				}
 			}
 			
@@ -58,7 +66,8 @@ public class PridajTestServlet extends HttpServlet {
 			try {
 				testy = testManager.getSelectedTests(predmet.getId(), rok.getId());
 			} catch (SQLException e) {
-				e.printStackTrace();
+				logger.warn(e.getMessage(), e);
+;
 			}
 			//System.out.println("1testy size:" + testy.get(0) + "*");
 			request.getSession().setAttribute("testy", testy);
@@ -70,7 +79,8 @@ public class PridajTestServlet extends HttpServlet {
 			try {
 				otazky = otazkaManager.getAllOtazkaFromTest(testy.get(testy.size() - 1).getId());
 			} catch (SQLException e) {
-				e.printStackTrace();
+				logger.warn(e.getMessage(), e);
+;
 			}
 			request.getSession().setAttribute("otazky", otazky);
 		}

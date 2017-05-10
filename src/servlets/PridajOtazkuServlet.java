@@ -10,8 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import managers.OtazkaManager;
 import model.Otazka;
+import model.Plan;
 import model.Test;
 
 /**
@@ -20,11 +23,14 @@ import model.Test;
 @WebServlet("/pridajotazku")
 public class PridajOtazkuServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static Logger logger = Logger.getLogger(PridajOtazkuServlet.class);
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		logger.info("REQUEST \\n" + "Remote addr" + request.getRemoteAddr() + "\\n Query: " + request.getQueryString());
+
 		request.setCharacterEncoding("UTF-8");
 		
 		String otazka_text = request.getParameter("otazka_text");
@@ -36,14 +42,16 @@ public class PridajOtazkuServlet extends HttpServlet {
 		try {
 			otazkaManager.insertOtazka(otazka);
 		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+			logger.warn(e.getMessage(), e);
+;
 		}
 		
 		List<Otazka> otazky = null;
 		try {
 			otazky = otazkaManager.getAllOtazkaFromTest(test.getId());
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.warn(e.getMessage(), e);
+;
 		}
 		request.getSession().setAttribute("otazky", otazky);
 		

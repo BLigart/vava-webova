@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import managers.PlanManager;
 import model.Firma;
 import model.PlanPredmet;
@@ -20,12 +22,15 @@ import model.User;
 @WebServlet("/ulozitplan")
 public class UlozitPlanServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static Logger logger = Logger.getLogger(UlozitPlanServlet.class);
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		logger.info("REQUEST \\n" + "Remote addr" + request.getRemoteAddr() + "\\n Query: " + request.getQueryString());
+
 		PlanManager planManager = new PlanManager();
 		ArrayList<PlanPredmet> predmety_v_plane = (ArrayList<PlanPredmet>) request.getSession().getAttribute("predmety_v_plane");
 		String nazovPlanu = (String) request.getSession().getAttribute("nazovPlanu");

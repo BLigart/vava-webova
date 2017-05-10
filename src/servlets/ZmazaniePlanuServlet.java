@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import managers.PlanManager;
 import model.Firma;
 import model.Plan;
@@ -21,11 +23,14 @@ import model.User;
 @WebServlet("/zmazanieplanu")
 public class ZmazaniePlanuServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static Logger logger = Logger.getLogger(ZmazaniePlanuServlet.class);
 	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		logger.info("REQUEST \\n" + "Remote addr" + request.getRemoteAddr() + "\\n Query: " + request.getQueryString());
+
 		User user = (User) request.getSession().getAttribute("user");
 		Firma firma = (Firma) request.getSession().getAttribute("firma");
 		List<Plan> plany = null;
@@ -35,7 +40,8 @@ public class ZmazaniePlanuServlet extends HttpServlet {
 			try {
 				plany = planManager.getAllPlanByAutorWithVolitelnyPredmet(autor);
 			} catch (SQLException e) {
-				e.printStackTrace();
+				logger.warn(e.getMessage(), e);
+;
 			}
 			request.getSession().setAttribute("plany", plany);
 		}
@@ -44,7 +50,8 @@ public class ZmazaniePlanuServlet extends HttpServlet {
 			try {
 				plany = planManager.getAllPlanByAutorWithVolitelnyPredmet(autor);
 			} catch (SQLException e) {
-				e.printStackTrace();
+				logger.warn(e.getMessage(), e);
+;
 			}
 			request.getSession().setAttribute("plany", plany);
 		}

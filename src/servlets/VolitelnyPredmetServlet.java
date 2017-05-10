@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import model.PlanPredmet;
 import model.VolitelnyPredmet;
 
@@ -19,12 +21,15 @@ import model.VolitelnyPredmet;
 @WebServlet("/selectvolitelnypredmet")
 public class VolitelnyPredmetServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static Logger logger = Logger.getLogger(VolitelnyPredmetServlet.class);
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		logger.info("REQUEST \\n" + "Remote addr" + request.getRemoteAddr() + "\\n Query: " + request.getQueryString());
+
 		request.setCharacterEncoding("UTF-8");
 		String selectedSemesterStr = request.getParameter("semesterSelect");
 		int selectedSemester = Integer.parseInt(selectedSemesterStr);

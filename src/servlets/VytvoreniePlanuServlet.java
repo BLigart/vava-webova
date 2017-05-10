@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import managers.VolitelnyPredmetManager;
 import model.User;
 import model.VolitelnyPredmet;
@@ -21,19 +23,23 @@ import model.VolitelnyPredmet;
 @WebServlet("/vytvorenieplanu")
 public class VytvoreniePlanuServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static Logger logger = Logger.getLogger(VytvoreniePlanuServlet.class);
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		logger.info("REQUEST \\n" + "Remote addr" + request.getRemoteAddr() + "\\n Query: " + request.getQueryString());
+
 		request.setCharacterEncoding("UTF-8");
-		User user = (User) request.getSession().getAttribute("user");
+		//User user = (User) request.getSession().getAttribute("user");
 		VolitelnyPredmetManager volitelnyPredmetManager = new VolitelnyPredmetManager();
 		List<VolitelnyPredmet> volitelne_predmety_list = null;
 		try {
 			volitelne_predmety_list = volitelnyPredmetManager.getAllVolitelnyPredmet();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.warn(e.getMessage(), e);
+;
 		}
 		ArrayList<VolitelnyPredmet> volitelne_predmety = new ArrayList<VolitelnyPredmet>();
 		for(VolitelnyPredmet volitelnyPredmet: volitelne_predmety_list) {

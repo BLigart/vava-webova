@@ -10,8 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
 import managers.FirmaManager;
 import model.Firma;
+import model.Plan;
 import model.Rok;
 import model.User;
 
@@ -21,11 +25,13 @@ import model.User;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static Logger logger = Logger.getLogger(LoginServlet.class);
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		
@@ -54,7 +60,8 @@ public class LoginServlet extends HttpServlet {
 		try {
 			result = user.aisLogin(username, password);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.warn(e.getMessage(), e);
+;
 		}
 		
 		if (result) {

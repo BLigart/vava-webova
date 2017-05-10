@@ -5,6 +5,8 @@ import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -17,8 +19,10 @@ import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import managers.PredmetManager;
 import managers.VolitelnyPredmetManager;
 import model.Predmet;
+import servlets.RokServlet;
 
 public class User {
+	private static Logger logger = Logger.getLogger(User.class);
 	private WebClient webClient;
 	private ArrayList<Predmet> predmety;
 	private ArrayList<VolitelnyPredmet> volitelne_predmety;
@@ -104,11 +108,11 @@ public class User {
 	    int selection_num = 0;
 	    for(int i = 0; i < ar.length - 3; i++) {
 	    	//System.out.println(i + " : " + ar[i]);
-	    	if(ar[i].contains("volite¾ných")) {
+	    	if(ar[i].contains("voliteï¿½nï¿½ch")) {
 	    		selection = true;
 	    		selection_num = -2;
 	    	}
-	    	else if(ar[i + 3].contains("Názov predmetu")) {
+	    	else if(ar[i + 3].contains("Nï¿½zov predmetu")) {
 	    		selection = false;
 	    	}
 	    	if(selection == true) {
@@ -146,7 +150,7 @@ public class User {
 	    			output = output.substring(output.indexOf("ABCDEF") + 6);
 	    		}
 
-	    		String[] percenta = output.split(" %");
+	    		String[] percenta = output.split("ï¿½%");
 	    		Double[] double_percenta = new Double[6];
 	    		for(int i = 0; i < percenta.length; i++) {
 	    			percenta[i] = percenta[i].replaceAll(",", ".");
@@ -160,7 +164,8 @@ public class User {
 	    	try {
 				volitelnypredmetmanager.insertVolitelnyPredmet(volitelnyPredmet);
 			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
+				logger.warn(e.getMessage(), e);
+;
 			}
 	    }
 	}

@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import managers.RokManager;
 import model.Predmet;
 import model.Rok;
@@ -22,11 +24,14 @@ import model.User;
 @WebServlet("/testy")
 public class TestyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static Logger logger = Logger.getLogger(TestyServlet.class);
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		logger.info("REQUEST \\n" + "Remote addr" + request.getRemoteAddr() + "\\n Query: " + request.getQueryString());
+
 		return;
 	}
 
@@ -34,13 +39,15 @@ public class TestyServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		logger.info("REQUEST \\n" + "Remote addr" + request.getRemoteAddr() + "\\n Query: " + request.getQueryString());
+
 		User user = (User) request.getSession().getAttribute("user");
 		
 		try {
 			user.get_predmety();
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.warn(e.getMessage(), e);
+;
 		}
 		request.getSession().setAttribute("user", user);
 		
@@ -66,7 +73,8 @@ public class TestyServlet extends HttpServlet {
 			try {
 				rokManager.insertRok(new Rok(i, i + 1));
 			} catch (ClassNotFoundException | SQLException e) {
-				e.printStackTrace();
+				logger.warn(e.getMessage(), e);
+;
 			}
 		}
 		
@@ -75,7 +83,8 @@ public class TestyServlet extends HttpServlet {
 		try {
 			roky = rokManager.getAllRok();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.warn(e.getMessage(), e);
+;
 		}
 		request.getSession().setAttribute("roky", roky);
 		

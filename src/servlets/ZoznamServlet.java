@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import managers.PlanManager;
 import model.Plan;
 
@@ -20,11 +22,14 @@ import model.Plan;
 @WebServlet("/zoznamplanov")
 public class ZoznamServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static Logger logger = Logger.getLogger(ZoznamServlet.class);
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		logger.info("REQUEST \\n" + "Remote addr" + request.getRemoteAddr() + "\\n Query: " + request.getQueryString());
+
 		request.getSession().setAttribute("selectedStudentPlan", null);
 		request.getSession().setAttribute("selectedFirmaPlan", null);
 		List<Plan> studentPlany = null;
@@ -40,7 +45,8 @@ public class ZoznamServlet extends HttpServlet {
 				Collections.sort(studentPlany);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.warn(e.getMessage(), e);
+;
 		}
 		request.getSession().setAttribute("studentplany", studentPlany);
 		try {
@@ -53,7 +59,8 @@ public class ZoznamServlet extends HttpServlet {
 				Collections.sort(firmaPlany);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.warn(e.getMessage(), e);
+;
 		}
 		request.getSession().setAttribute("firmaplany", firmaPlany);
 		

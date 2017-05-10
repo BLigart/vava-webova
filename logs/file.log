@@ -1,0 +1,8 @@
+10.máj.42017 17:13:04 ::::: INFO  FirmaManager - Find company by login: eset
+10.máj.42017 17:13:04 ::::: INFO  AllTablesManager - Begin query: SELECT * FROM firma WHERE login LIKE 'eset' AND password LIKE 'eset'
+10.máj.42017 17:13:04 ::::: INFO  AllTablesManager - Try connect tojdbc:postgresql://localhost:5432/student_manager
+10.máj.42017 17:13:04 ::::: INFO  AllTablesManager - Connected
+10.máj.42017 17:13:04 ::::: INFO  AllTablesManager - Execute query
+10.máj.42017 17:13:04 ::::: INFO  FirmaManager - Process row:1eset
+10.máj.42017 17:13:04 ::::: INFO  AllTablesManager - Executed
+10.máj.42017 17:13:04 ::::: INFO  AllTablesManager - Close connection

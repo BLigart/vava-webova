@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import managers.PlanManager;
 import model.Firma;
 import model.Plan;
@@ -22,11 +24,14 @@ import model.User;
 @WebServlet("/zmazatplan")
 public class ZmazatPlanServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static Logger logger = Logger.getLogger(ZmazatPlanServlet.class);
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		logger.info("REQUEST \\n" + "Remote addr" + request.getRemoteAddr() + "\\n Query: " + request.getQueryString());
+
 		String selectedPlan = request.getParameter("planSelect");
 		if(selectedPlan.equals("")) {
 			response.sendRedirect("zmazanie_planu_screen.jsp");
@@ -53,7 +58,8 @@ public class ZmazatPlanServlet extends HttpServlet {
 				try {
 					plany = planManager.getAllPlanByAutorWithVolitelnyPredmet(autor);
 				} catch (SQLException e) {
-					e.printStackTrace();
+					logger.warn(e.getMessage(), e);
+;
 				}
 				request.getSession().setAttribute("plany", plany);
 				break;
